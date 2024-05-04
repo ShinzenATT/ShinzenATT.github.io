@@ -2,6 +2,7 @@ import type {Ref} from "vue";
 import type {ThemeInstance} from "vuetify";
 import type {AnimationLayer} from "~/types/animationLayer";
 import BackgroundAnimation from "~/services/animations/backgroundAnimation";
+import BubbleAnimation from "~/services/animations/bubbleAnimation";
 
 export default class AnimatorService {
     public readonly ctx: CanvasRenderingContext2D
@@ -10,6 +11,7 @@ export default class AnimatorService {
     private readonly themes: ThemeInstance
     private isActive = true
     private callbackId: number | undefined
+    private elapsedTime: DOMHighResTimeStamp = performance.now()
     private animations: AnimationLayer[] = []
 
     public get width() {
@@ -25,6 +27,10 @@ export default class AnimatorService {
         return this.themes.current.value.colors.secondary
     }
 
+    public get theme(){
+        return this.themes.current
+    }
+
     constructor(ctx: CanvasRenderingContext2D, width: Ref<number>, height: Ref<number>, themes: ThemeInstance) {
         this.ctx = ctx
         this._width = width
@@ -33,6 +39,9 @@ export default class AnimatorService {
         this.animations = [
             new BackgroundAnimation()
         ]
+        for (let i = 0; i < 50; i++) {
+            this.animations.push(new BubbleAnimation(this.width, this.height, this.secondaryColor))
+        }
     }
 
     public startFrameCycle(){
@@ -49,8 +58,10 @@ export default class AnimatorService {
     }
 
 
-    private drawFrame(delta: DOMHighResTimeStamp){
-        console.log("new frame")
+    private drawFrame(timestamp: DOMHighResTimeStamp){
+        const delta = timestamp - this.elapsedTime
+        this.elapsedTime = timestamp
+        console.log("new frame, delta: " + delta)
         for (const it of this.animations) {
             it.animate(this, delta)
         }
