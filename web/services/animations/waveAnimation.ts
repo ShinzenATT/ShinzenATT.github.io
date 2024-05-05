@@ -6,19 +6,22 @@ export default class WaveAnimation implements AnimationLayer{
     private height: number
     private readonly amplitude = 50
     private readonly speed: number = Math.PI
+    private readonly delay: number
     private riseSpeed: number
     private color: string
 
-    constructor(width: number, height: number, color: string) {
-        this.color = color + "aa"
-        //this.height = Math.floor(height * 0.6)
+    constructor(height: number, color: string, delayMs: number = 0)  {
+        this.color = color + "77"
         this.height = height + this.amplitude
         this.riseSpeed = Math.floor(height * 0.4)
+        this.delay = delayMs
     }
 
     animate(st: AnimatorService, delta: number): void {
+        if(st.elapsedTime < this.delay) return
         const deltaSec = delta / 1000
         this.transitionHeight(st.height, deltaSec)
+        if(this.height < this.amplitude * -1) return
         this.angleMod += this.speed * deltaSec
         const frequency = WaveAnimation.calculateFrequency(st.width)
         let angle = this.angleMod
@@ -39,7 +42,7 @@ export default class WaveAnimation implements AnimationLayer{
     }
 
     transitionHeight(height: number, deltaSec: number){
-        const targetHeight = height * 0.6
+        const targetHeight = height * 0.6 - window.scrollY
         if(targetHeight === this.height) return
         const heightDiff = targetHeight - this.height
         /*let progress: number

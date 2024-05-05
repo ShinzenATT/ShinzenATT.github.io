@@ -13,7 +13,7 @@ export default class AnimatorService {
     private isActive = true
     private callbackId: number | undefined
     private readonly startTime: DOMHighResTimeStamp = performance.now()
-    private elapsedTime: DOMHighResTimeStamp = performance.now()
+    private lastAnimated: DOMHighResTimeStamp = performance.now()
     private readonly animations: AnimationLayer[] = []
 
     public get width() {
@@ -28,9 +28,11 @@ export default class AnimatorService {
     public get secondaryColor(){
         return this.themes.current.value.colors.secondary
     }
-
     public get theme(){
         return this.themes.current
+    }
+    public get elapsedTime() {
+        return this.lastAnimated - this.startTime
     }
 
     constructor(ctx: CanvasRenderingContext2D, width: Ref<number>, height: Ref<number>, themes: ThemeInstance) {
@@ -44,7 +46,10 @@ export default class AnimatorService {
         for (let i = 0; i < 60; i++) {
             this.animations.push(new BubbleAnimation(this.width, this.height, this.secondaryColor))
         }
-        this.animations.push(new WaveAnimation(this.width, this.height, this.secondaryColor))
+        this.animations.push(
+            new WaveAnimation(this.height, this.secondaryColor),
+            new WaveAnimation(this.height, this.secondaryColor, 300)
+        )
     }
 
     public startFrameCycle(){
@@ -62,8 +67,8 @@ export default class AnimatorService {
 
 
     private drawFrame(timestamp: DOMHighResTimeStamp){
-        const delta = timestamp - this.elapsedTime
-        this.elapsedTime = timestamp
+        const delta = timestamp - this.lastAnimated
+        this.lastAnimated = timestamp
         //console.log("new frame, delta: " + delta)
         for (const it of this.animations) {
             it.animate(this, delta)
