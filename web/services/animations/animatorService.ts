@@ -3,6 +3,7 @@ import type {ThemeInstance} from "vuetify";
 import type {AnimationLayer} from "~/types/animationLayer";
 import BackgroundAnimation from "~/services/animations/backgroundAnimation";
 import BubbleAnimation from "~/services/animations/bubbleAnimation";
+import WaveAnimation from "~/services/animations/waveAnimation";
 
 export default class AnimatorService {
     public readonly ctx: CanvasRenderingContext2D
@@ -12,7 +13,7 @@ export default class AnimatorService {
     private isActive = true
     private callbackId: number | undefined
     private elapsedTime: DOMHighResTimeStamp = performance.now()
-    private animations: AnimationLayer[] = []
+    private readonly animations: AnimationLayer[] = []
 
     public get width() {
         return this._width.value
@@ -39,9 +40,10 @@ export default class AnimatorService {
         this.animations = [
             new BackgroundAnimation()
         ]
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 60; i++) {
             this.animations.push(new BubbleAnimation(this.width, this.height, this.secondaryColor))
         }
+        this.animations.push(new WaveAnimation(this.width, this.height, this.secondaryColor))
     }
 
     public startFrameCycle(){
@@ -61,7 +63,7 @@ export default class AnimatorService {
     private drawFrame(timestamp: DOMHighResTimeStamp){
         const delta = timestamp - this.elapsedTime
         this.elapsedTime = timestamp
-        console.log("new frame, delta: " + delta)
+        //console.log("new frame, delta: " + delta)
         for (const it of this.animations) {
             it.animate(this, delta)
         }

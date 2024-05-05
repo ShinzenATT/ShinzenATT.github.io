@@ -11,12 +11,12 @@ export default class BubbleAnimation implements AnimationLayer {
     private ySpeed: number
 
     constructor(width: number, height: number, color: string) {
-        this.color = color
+        this.color = color + "33"
         this.size = Math.floor(width * 0.01 + Math.random() * (width * 0.01))
         this.x = Math.floor(Math.random() * width)
         this.y = height + this.size
         this.xSpeed = Math.floor(Math.random() * (width * 0.1)) - Math.floor(width * 0.05)
-        this.ySpeed = Math.floor(Math.random() * (height * 0.1)) + 50
+        this.ySpeed = Math.floor(Math.random() * (height * 0.3)) + 100
     }
     animate(st: AnimatorService, delta: number): void {
         const deltaSec = delta / 1000
