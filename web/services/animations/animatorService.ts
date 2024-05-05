@@ -12,6 +12,7 @@ export default class AnimatorService {
     private readonly themes: ThemeInstance
     private isActive = true
     private callbackId: number | undefined
+    private readonly startTime: DOMHighResTimeStamp = performance.now()
     private elapsedTime: DOMHighResTimeStamp = performance.now()
     private readonly animations: AnimationLayer[] = []
 
