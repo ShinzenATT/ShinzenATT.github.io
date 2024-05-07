@@ -1,5 +1,6 @@
 import type {AnimationLayer} from "~/types/animationLayer";
 import type AnimatorService from "~/services/animations/animatorService";
+import {th} from "vuetify/locale";
 
 export default class WaveAnimation implements AnimationLayer{
     private angleMod = 0
@@ -65,8 +66,8 @@ export default class WaveAnimation implements AnimationLayer{
     static calculateFrequency(width: number): number{
         const maxWidth = 1920
         const minWidth = 320
-        const maxFreq = Math.PI / 200
-        const minFreq = Math.PI / 1000
+        const maxFreq = Math.PI / 700
+        const minFreq = Math.PI / 1500
 
         const normalizedWidth = (width - minWidth) / (maxWidth - minWidth)
 
