@@ -1,4 +1,4 @@
-FROM node:20-alpine as build
+FROM node:20-alpine AS build
 LABEL authors="shinzenatt"
 
 WORKDIR /home/node
@@ -8,8 +8,8 @@ RUN yarn install
 
 RUN yarn generate
 
-FROM nginx:alpine as deploy
+FROM nginx:alpine AS deploy
 
-COPY --from=build /home/node/dist /usr/share/nginx/html
+COPY --from=build /home/node/.output/public /usr/share/nginx/html
 
 EXPOSE 80

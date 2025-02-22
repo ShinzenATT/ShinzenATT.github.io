@@ -44,9 +44,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            web/dist
+            web/.output
             web/.nuxt
-          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('web/dist') }}
+          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('web/.output') }}
           restore-keys: |
             ${{ runner.os }}-nuxt-build-
       - name: Install dependencies
@@ -58,7 +58,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./web/dist
+          path: ./web/.output/public
 
   # Deployment job
   deploy-pages:
@@ -93,9 +93,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            web/dist
+            web/.output
             web/.nuxt
-          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('web/dist') }}
+          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('web/.output') }}
           restore-keys: |
             ${{ runner.os }}-nuxt-build-
       - name: Set up Docker Buildx
