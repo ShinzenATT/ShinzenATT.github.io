@@ -116,7 +116,9 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ${{ github.sha }}, latest
+          tags: |
+            ghcr.io/ShinzenATT/ShinzenATT.github.io:latest
+            ghcr.io/ShinzenATT/ShinzenATT.github.io:${{github.sha}}
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
         with:
