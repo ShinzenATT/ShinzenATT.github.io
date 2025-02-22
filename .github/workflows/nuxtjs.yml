@@ -122,7 +122,7 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
         with:
-          subject-name: ghcr.io/${{ env.REPO_LC }}
+          subject-name: ghcr.io/shinzenatt/shinzenatt.github.io
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
