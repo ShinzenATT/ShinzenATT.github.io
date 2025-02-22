@@ -117,8 +117,8 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/ShinzenATT/ShinzenATT.github.io:latest
-            ghcr.io/ShinzenATT/ShinzenATT.github.io:${{github.sha}}
+            ghcr.io/shinzenatt/shinzenatt.github.io:latest
+            ghcr.io/shinzenatt/shinzenatt.github.io:${{github.sha}}
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
         with:
