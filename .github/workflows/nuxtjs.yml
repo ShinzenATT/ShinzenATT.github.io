@@ -124,5 +124,5 @@ jobs:
         with:
           subject-name: ghcr.io/shinzenatt/shinzenatt.github.io
           subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
+          push-to-registry: false
 
